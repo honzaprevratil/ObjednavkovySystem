@@ -20,9 +20,13 @@ namespace ObjednavkovySystem
     /// </summary>
     public partial class MainWindow : Window
     {
+        ApiProvider ApiProvider = new ApiProvider();
+
         public MainWindow()
         {
             InitializeComponent();
+            ApiProvider.GetData();
+            ApiProvider.Login("honza", "heslo");
         }
     }
 }
