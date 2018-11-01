@@ -25,8 +25,9 @@ namespace ObjednavkovySystem
         public MainWindow()
         {
             InitializeComponent();
-            ApiProvider.GetData();
-            ApiProvider.Login("honza", "heslo");
+            //ApiProvider.GetUsers();
+            ApiProvider.Login("honza", "password");
+
         }
     }
 }

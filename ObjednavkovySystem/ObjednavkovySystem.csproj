@@ -59,6 +59,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Hash.cs" />
+    <Compile Include="Item.cs" />
+    <Compile Include="Order.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="User.cs" />
     <Page Include="MainWindow.xaml">
