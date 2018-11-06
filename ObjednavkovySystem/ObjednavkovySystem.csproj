@@ -58,9 +58,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DB\DBitem.cs" />
     <Compile Include="Hash.cs" />
-    <Compile Include="Response.cs" />
-    <Compile Include="User.cs" />
+    <Compile Include="DB\Item.cs" />
+    <Compile Include="DB\Order.cs" />
+    <Compile Include="DB\Response.cs" />
+    <Compile Include="DB\User.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -25,8 +25,106 @@ namespace ObjednavkovySystem
         public MainWindow()
         {
             InitializeComponent();
-            ApiProvider.GetData();
-            ApiProvider.Login("honza", "heslo");
+            this.KeyDown += EnterDown;
+            //ApiProvider.GetUsers();
+
+        }
+
+        private void EnterDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                TryToLogin();
+            }
+        }
+
+        private void Button_LogIn(object sender, RoutedEventArgs e)
+        {
+            TryToLogin();
+        }
+
+        private void Button_LogOut(object sender, RoutedEventArgs e)
+        {
+            ordersListview.ItemsSource = new List<Order>();
+            itemsListview.ItemsSource = new List<Item>();
+            ApiProvider.LoggedUser = new User();
+            loggedUserLabel.Content = "";
+            messageLabel.Content = "Succesfully logged out!";
+            messageLabel.BorderBrush = Brushes.Blue;
+            logOutButton.Visibility = Visibility.Hidden;
+        }
+
+        private async void Button_OrderItem(object sender, RoutedEventArgs e)
+        {
+            if (itemsListview.SelectedItem != null)
+            {
+                await ApiProvider.PostData("order", (Item)itemsListview.SelectedItem);
+                ordersListview.ItemsSource = await ApiProvider.GetData<Order>();
+                messageLabel.Content = "Order placed.";
+                messageLabel.BorderBrush = Brushes.Blue;
+            }
+            else
+            {
+                messageLabel.Content = "Select item to order.";
+                messageLabel.BorderBrush = Brushes.Red;
+            }
+        }
+
+        private async void Button_DeleteOrder(object sender, RoutedEventArgs e)
+        { 
+            if (ordersListview.SelectedItem != null)
+            {
+                await ApiProvider.PostData("hide", (Order)ordersListview.SelectedItem);
+                ordersListview.ItemsSource = await ApiProvider.GetData<Order>();
+                messageLabel.Content = "Order hidden.";
+                messageLabel.BorderBrush = Brushes.Blue;
+            }
+            else
+            {
+                messageLabel.Content = "Select order to hide.";
+                messageLabel.BorderBrush = Brushes.Red;
+            }
+        }
+
+        private async void TryToLogin()
+        {
+            if (passInput.Password != "" && nickInput.Text != "")
+            {
+                User postUser = new User()
+                {
+                    nick = nickInput.Text,
+                    password = Hash.sha256_hash(passInput.Password)
+                };
+
+                if (await ApiProvider.PostData("login", postUser))
+                {
+                    messageLabel.Content = "Logged in succesfully!";
+                    messageLabel.BorderBrush = Brushes.Blue;
+                    loggedUserLabel.Content = ApiProvider.LoggedUser.name + " " + ApiProvider.LoggedUser.surname;
+                    logOutButton.Visibility = Visibility.Visible;
+
+                    // get user's orders
+                    ordersListview.ItemsSource = await ApiProvider.GetData<Order>();
+
+                    // get items
+                    itemsListview.ItemsSource = await ApiProvider.GetData<Item>();
+                }
+                else
+                {
+                    loggedUserLabel.Content = "";
+                    messageLabel.Content = "Invalid nick or password!";
+                    messageLabel.BorderBrush = Brushes.Red;
+                    ordersListview.ItemsSource = new List<Order>();
+                    itemsListview.ItemsSource = new List<Item>();
+                }
+                passInput.Password = "";
+                nickInput.Text = "";
+            }
+            else
+            {
+                messageLabel.Content = "Missing nick or password!";
+                messageLabel.BorderBrush = Brushes.Red;
+            }
         }
     }
 }

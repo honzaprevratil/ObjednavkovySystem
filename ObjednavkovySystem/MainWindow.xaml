@@ -7,6 +7,41 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="nickInput" HorizontalAlignment="Left" Height="23" Text="honza" Margin="82,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Nick" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <PasswordBox x:Name="passInput" HorizontalAlignment="Left" Password="password" Height="23" Margin="82,45,0,0" VerticalAlignment="Top"  Width="120"/>
+        <Label Content="Password" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+        <Button Content="Log in" Click="Button_LogIn" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="82,76,0,0" Height="30"/>
+
+        <ListView x:Name="ordersListview" HorizontalAlignment="Left" Height="190" Margin="506,10,0,0" VerticalAlignment="Top" Width="276">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="100" Header="Order id" DisplayMemberBinding="{Binding id}"  />
+                    <GridViewColumn Width="140" Header="Ordered item" DisplayMemberBinding="{Binding name}"  />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ListView x:Name="itemsListview" HorizontalAlignment="Left" Height="166" Margin="506,10,0,0" VerticalAlignment="Top" Width="276" Grid.Row="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="100" Header="Item id" DisplayMemberBinding="{Binding id}"  />
+                    <GridViewColumn Width="140" Header="Item name" DisplayMemberBinding="{Binding name}"  />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Label Content="Items" HorizontalAlignment="Left" Margin="455,10,0,0" VerticalAlignment="Top" Grid.Row="1" RenderTransformOrigin="4.154,1"/>
+        <Label x:Name="messageLabel" BorderBrush="Blue" BorderThickness="2" Content="Enter your nick and password." HorizontalAlignment="Left" Margin="10,119,0,0" VerticalAlignment="Top" Width="192"/>
+        <Label Content="Orders" HorizontalAlignment="Left" Margin="455,11,0,0" VerticalAlignment="Top"/>
+        <Label Content="User name" HorizontalAlignment="Left" Margin="10,154,0,0" VerticalAlignment="Top" Width="67"/>
+        <Label x:Name="loggedUserLabel" BorderBrush="Blue" BorderThickness="2" Content="" HorizontalAlignment="Left" Margin="82,154,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="logOutButton" Content="Log out" Visibility="Hidden" Click="Button_LogOut" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="82,194,0,0" Height="30" Grid.RowSpan="2"/>
+        <Button Content="Order selected" Click="Button_OrderItem" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="374,36,0,0" Height="30" Grid.Row="1"/>
+        <Button Content="Hide selected" Click="Button_DeleteOrder" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="374,37,0,0" Height="30"/>
+
     </Grid>
 </Window>
