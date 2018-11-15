@@ -28,6 +28,9 @@ namespace ObjednavkovySystem
             this.KeyDown += EnterDown;
             //ApiProvider.GetUsers();
 
+            logOutButton.Visibility = Visibility.Hidden;
+            TabOrders.Visibility = Visibility.Hidden;
+            TabItems.Visibility = Visibility.Hidden;
         }
 
         private void EnterDown(object sender, KeyEventArgs e)
@@ -51,7 +54,10 @@ namespace ObjednavkovySystem
             loggedUserLabel.Content = "";
             messageLabel.Content = "Succesfully logged out!";
             messageLabel.BorderBrush = Brushes.Blue;
+
             logOutButton.Visibility = Visibility.Hidden;
+            TabOrders.Visibility = Visibility.Hidden;
+            TabItems.Visibility = Visibility.Hidden;
         }
 
         private async void Button_OrderItem(object sender, RoutedEventArgs e)
@@ -101,13 +107,17 @@ namespace ObjednavkovySystem
                     messageLabel.Content = "Logged in succesfully!";
                     messageLabel.BorderBrush = Brushes.Blue;
                     loggedUserLabel.Content = ApiProvider.LoggedUser.name + " " + ApiProvider.LoggedUser.surname;
-                    logOutButton.Visibility = Visibility.Visible;
 
                     // get user's orders
                     ordersListview.ItemsSource = await ApiProvider.GetData<Order>();
 
                     // get items
                     itemsListview.ItemsSource = await ApiProvider.GetData<Item>();
+
+                    // set visiblity
+                    logOutButton.Visibility = Visibility.Visible;
+                    TabOrders.Visibility = Visibility.Visible;
+                    TabItems.Visibility = Visibility.Visible;
                 }
                 else
                 {
