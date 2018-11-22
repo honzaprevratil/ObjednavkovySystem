@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TabControl>
+        <TabControl x:Name="MineTabControl">
             <TabItem Header="Login" x:Name="TabLogin">
                 <Grid>
                     <TextBox x:Name="nickInput" HorizontalAlignment="Left" Height="23" Text="honza" Margin="368,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
@@ -17,32 +17,54 @@
                     <Button Content="Log in" Click="Button_LogIn" HorizontalAlignment="Left" VerticalAlignment="Top" Width="192" Margin="296,213,0,0" Height="30"/>
 
                     <Label x:Name="messageLabel" BorderBrush="Blue" BorderThickness="2" Content="Enter your nick and password." HorizontalAlignment="Left" Margin="296,178,0,0" VerticalAlignment="Top" Width="192"/>
-                    <Button x:Name="logOutButton" Content="Log out" Visibility="Visible" Click="Button_LogOut" HorizontalAlignment="Left" VerticalAlignment="Top" Width="177" Margin="609,0,0,0" Height="30"/>
+                    <Button x:Name="logOutButton" Content="Log out" Visibility="Visible" Click="Button_LogOut" HorizontalAlignment="Left" VerticalAlignment="Top" Width="177" Margin="601,0,0,0" Height="30"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Items" x:Name="TabItems">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="19*"/>
-                        <ColumnDefinition Width="767*"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Content="Order selected" Click="Button_OrderItem" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="355,36,0,0" Height="30" Grid.Column="1"/>
+                    <Button Content="Order selected" Click="Button_OrderItem" HorizontalAlignment="Left" VerticalAlignment="Top" Width="276" Margin="500,216,0,0" Height="30"/>
 
-                    <ListView x:Name="itemsListview" HorizontalAlignment="Left" Height="166" Margin="487,10,0,0" VerticalAlignment="Top" Width="276" Grid.Column="1">
+                    <ListView x:Name="itemsListview" HorizontalAlignment="Left" SelectionChanged="ItemsListview_SelectionChanged" Height="160" Margin="500,51,0,0" VerticalAlignment="Top" Width="276">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Width="100" Header="Item id" DisplayMemberBinding="{Binding id}"  />
-                                <GridViewColumn Width="140" Header="Item name" DisplayMemberBinding="{Binding name}"  />
+                                <GridViewColumn Width="50" Header="Id" DisplayMemberBinding="{Binding id}"  />
+                                <GridViewColumn Width="100" Header="Name" DisplayMemberBinding="{Binding name}"  />
+                                <GridViewColumn Width="100" Header="Price" DisplayMemberBinding="{Binding price}"  />
                             </GridView>
                         </ListView.View>
                     </ListView>
+
+                    <Label Content="Description" FontWeight="Bold" FontSize="15" Width="100" Margin="10,10,676,341" Grid.ColumnSpan="3"/>
+                    <TextBlock x:Name="labelDescription" HorizontalAlignment="Left" Margin="10,50,0,0" TextWrapping="Wrap" Text="Select item to see it's description..." VerticalAlignment="Top" Height="162" Width="440"/>
+                    <Label Content="Items" FontWeight="Bold" FontSize="15" Width="100" Margin="496,10,190,341"/>
+
+                    <Label Content="Add/Update item" FontWeight="Bold" FontSize="15" Margin="10,246,616,105"/>
+                    <Label Content="Name" HorizontalAlignment="Left" Margin="10,287,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="itemName" HorizontalAlignment="Left" Height="23" Text="" Margin="68,291,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="147"/>
+                    <Label Content="Price" HorizontalAlignment="Left" Margin="10,318,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="itemPrice" HorizontalAlignment="Left" Height="23" Text="" Margin="68,322,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="147"/>
+                    <Button Content="Save" Click="Button_SaveItem" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="10,351,0,0" Height="30"/>
+                    <TextBox x:Name="itemDescription" HorizontalAlignment="Left" MinLines="3" Height="90" Text="" Margin="327,291,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="449"/>
+
+                    <Button Content="Edit selected" Click="Button_EditItem" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="641,251,0,0" Height="30"/>
+                    <Button Content="Cancel" Click="Button_CancelItem" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="115,351,0,0" Height="30"/>
+                    <Label Content="Description" HorizontalAlignment="Left" Margin="242,287,0,0" VerticalAlignment="Top"/>
+                    <Button Content="Delete selected" Click="Button_DeleteItem" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="501,251,0,0" Height="30"/>
+
                 </Grid>
             </TabItem>
             <TabItem Header="Orders" x:Name="TabOrders">
                 <Grid>
-                    <Button Content="Hide selected" Click="Button_DeleteOrder" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="374,37,0,0" Height="30"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="25*"/>
+                        <ColumnDefinition Width="368*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Content="Hide selected" Click="Button_DeleteOrder" HorizontalAlignment="Left" VerticalAlignment="Top" Width="276" Margin="450,175,0,0" Height="30" Grid.Column="1"/>
 
-                    <ListView x:Name="ordersListview" HorizontalAlignment="Left" Height="190" Margin="506,10,0,0" VerticalAlignment="Top" Width="276">
+                    <ListView x:Name="ordersListview" HorizontalAlignment="Left" Height="160" Margin="450,10,0,0" VerticalAlignment="Top" Width="276" Grid.Column="1">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="100" Header="Order id" DisplayMemberBinding="{Binding id}"  />

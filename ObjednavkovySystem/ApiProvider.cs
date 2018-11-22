@@ -42,8 +42,28 @@ namespace ObjednavkovySystem
             }
             else if (typeof(T) == typeof(Item))
             {
-                keyValues.Add(new KeyValuePair<string, string>("idItem", (data as Item).id.ToString()));
-                keyValues.Add(new KeyValuePair<string, string>("idUser", LoggedUser.id.ToString()));
+                if (action == "updateItem")
+                {
+                    keyValues.Add(new KeyValuePair<string, string>("id", (data as Item).id.ToString()));
+                    keyValues.Add(new KeyValuePair<string, string>("name", (data as Item).name));
+                    keyValues.Add(new KeyValuePair<string, string>("description", (data as Item).description));
+                    keyValues.Add(new KeyValuePair<string, string>("price", (data as Item).price.ToString()));
+                }
+                else if (action == "addItem")
+                {
+                    keyValues.Add(new KeyValuePair<string, string>("name", (data as Item).name));
+                    keyValues.Add(new KeyValuePair<string, string>("description", (data as Item).description));
+                    keyValues.Add(new KeyValuePair<string, string>("price", (data as Item).price.ToString()));
+                }
+                else if (action == "deleteItem")
+                {
+                    keyValues.Add(new KeyValuePair<string, string>("id", (data as Item).id.ToString()));
+                }
+                else
+                {
+                    keyValues.Add(new KeyValuePair<string, string>("idItem", (data as Item).id.ToString()));
+                    keyValues.Add(new KeyValuePair<string, string>("idUser", LoggedUser.id.ToString()));
+                }
             }
             else if (typeof(T) == typeof(Order))
             {

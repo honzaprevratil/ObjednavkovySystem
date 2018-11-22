@@ -22,6 +22,8 @@ namespace ObjednavkovySystem
     {
         ApiProvider ApiProvider = new ApiProvider();
 
+        Item loadedItem;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -111,6 +113,9 @@ namespace ObjednavkovySystem
                     // get user's orders
                     ordersListview.ItemsSource = await ApiProvider.GetData<Order>();
 
+                    // navigate to next page
+                    MineTabControl.SelectedIndex = 1;
+
                     // get items
                     itemsListview.ItemsSource = await ApiProvider.GetData<Item>();
 
@@ -135,6 +140,76 @@ namespace ObjednavkovySystem
                 messageLabel.Content = "Missing nick or password!";
                 messageLabel.BorderBrush = Brushes.Red;
             }
+        }
+
+        private void ItemsListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((sender as ListView).SelectedItem != null )
+                labelDescription.Text = ((sender as ListView).SelectedItem as Item).description;
+        }
+
+        private async void Button_SaveItem(object sender, RoutedEventArgs e)
+        {
+            if (loadedItem != null)
+            {
+                loadedItem.name = itemName.Text;
+                loadedItem.description = itemDescription.Text;
+                loadedItem.price = int.Parse(itemPrice.Text);
+
+                await ApiProvider.PostData("updateItem", loadedItem);
+                
+                // clear inputs
+                loadedItem = null;
+                itemName.Text = "";
+                itemPrice.Text = "";
+                itemDescription.Text = "";
+            }
+            else
+            {
+                await ApiProvider.PostData("addItem", new Item() {
+                    name = itemName.Text,
+                    price = int.Parse(itemPrice.Text),
+                    description = itemDescription.Text
+                });
+
+                // clear inputs
+                itemName.Text = "";
+                itemPrice.Text = "";
+                itemDescription.Text = "";
+            }
+
+            // refresh list
+            itemsListview.ItemsSource = await ApiProvider.GetData<Item>();
+            labelDescription.Text = "";
+        }
+
+        private void Button_EditItem(object sender, RoutedEventArgs e)
+        {
+            if (itemsListview.SelectedItem != null)
+            {
+                loadedItem = itemsListview.SelectedItem as Item;
+                itemName.Text = loadedItem.name;
+                itemPrice.Text = loadedItem.price.ToString();
+                itemDescription.Text = loadedItem.description;
+            }
+        }
+
+        private void Button_CancelItem(object sender, RoutedEventArgs e)
+        {
+            loadedItem = null;
+            itemName.Text = "";
+            itemPrice.Text = "";
+            itemDescription.Text = "";
+        }
+
+        private async void Button_DeleteItem(object sender, RoutedEventArgs e)
+        {
+            if (itemsListview.SelectedItem != null)
+                await ApiProvider.PostData("deleteItem", (itemsListview.SelectedItem as Item));
+
+            // refresh list
+            itemsListview.ItemsSource = await ApiProvider.GetData<Item>();
+            labelDescription.Text = "";
         }
     }
 }
