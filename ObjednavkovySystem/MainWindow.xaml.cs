@@ -150,37 +150,38 @@ namespace ObjednavkovySystem
 
         private async void Button_SaveItem(object sender, RoutedEventArgs e)
         {
-            if (loadedItem != null)
+            if (!string.IsNullOrEmpty(itemName.Text) && !string.IsNullOrEmpty(itemDescription.Text) && !string.IsNullOrEmpty(itemPrice.Text) && int.TryParse(itemPrice.Text, out int priceInt))
             {
-                loadedItem.name = itemName.Text;
-                loadedItem.description = itemDescription.Text;
-                loadedItem.price = int.Parse(itemPrice.Text);
+                if (loadedItem != null)
+                {
+                    loadedItem.name = itemName.Text;
+                    loadedItem.description = itemDescription.Text;
+                    loadedItem.price = priceInt;
 
-                await ApiProvider.PostData("updateItem", loadedItem);
-                
+                    await ApiProvider.PostData("updateItem", loadedItem);
+
+                    // clear loaded item
+                    loadedItem = null;
+                }
+                else
+                {
+                    await ApiProvider.PostData("addItem", new Item()
+                    {
+                        name = itemName.Text,
+                        price = priceInt,
+                        description = itemDescription.Text
+                    });
+                }
+
                 // clear inputs
-                loadedItem = null;
                 itemName.Text = "";
                 itemPrice.Text = "";
                 itemDescription.Text = "";
-            }
-            else
-            {
-                await ApiProvider.PostData("addItem", new Item() {
-                    name = itemName.Text,
-                    price = int.Parse(itemPrice.Text),
-                    description = itemDescription.Text
-                });
 
-                // clear inputs
-                itemName.Text = "";
-                itemPrice.Text = "";
-                itemDescription.Text = "";
+                // refresh list
+                itemsListview.ItemsSource = await ApiProvider.GetData<Item>();
+                labelDescription.Text = "";
             }
-
-            // refresh list
-            itemsListview.ItemsSource = await ApiProvider.GetData<Item>();
-            labelDescription.Text = "";
         }
 
         private void Button_EditItem(object sender, RoutedEventArgs e)
