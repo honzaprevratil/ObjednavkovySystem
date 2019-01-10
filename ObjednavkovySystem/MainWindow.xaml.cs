@@ -33,6 +33,7 @@ namespace ObjednavkovySystem
             logOutButton.Visibility = Visibility.Hidden;
             TabOrders.Visibility = Visibility.Hidden;
             TabItems.Visibility = Visibility.Hidden;
+            TabCart.Visibility = Visibility.Hidden;
         }
 
         private void EnterDown(object sender, KeyEventArgs e)
@@ -62,20 +63,97 @@ namespace ObjednavkovySystem
             TabItems.Visibility = Visibility.Hidden;
         }
 
-        private async void Button_OrderItem(object sender, RoutedEventArgs e)
+        private void RefreshCart()
+        {
+            // bind cart items
+            cartItems.ItemsSource = null;
+            cartItems.ItemsSource = ApiProvider.ItemsInCart;
+
+            int totalPrice = 0;
+            ApiProvider.ItemsInCart.ForEach(x => totalPrice = totalPrice + x.amount * x.price);
+
+            TotalPrice.Content = totalPrice.ToString() + " CZK";
+        }
+
+        private void Button_AddItemToCart(object sender, RoutedEventArgs e)
         {
             if (itemsListview.SelectedItem != null)
             {
-                await ApiProvider.PostData("order", (Item)itemsListview.SelectedItem);
-                ordersListview.ItemsSource = await ApiProvider.GetData<Order>();
-                messageLabel.Content = "Order placed.";
-                messageLabel.BorderBrush = Brushes.Blue;
+                if (ApiProvider.ItemsInCart.Where(x => x.id == (itemsListview.SelectedItem as Item).id).ToArray().Length == 1)
+                {
+                    foreach (Item item in ApiProvider.ItemsInCart)
+                    {
+                        if (item.id == (itemsListview.SelectedItem as Item).id)
+                            item.amount = item.amount + 1;
+                    }
+                }
+                else
+                {
+                    Item item = (Item)itemsListview.SelectedItem;
+                    item.amount = 1;
+                    ApiProvider.ItemsInCart.Add(item);
+                }
+
+                messageLabel2.Content = "Added to cart.";
+                messageLabel2.BorderBrush = Brushes.Blue;
             }
             else
             {
-                messageLabel.Content = "Select item to order.";
-                messageLabel.BorderBrush = Brushes.Red;
+                messageLabel2.Content = "Select item to add to cart.";
+                messageLabel2.BorderBrush = Brushes.Red;
             }
+            RefreshCart();
+        }
+
+        private void Button_RemoveItemFromCart(object sender, RoutedEventArgs e)
+        {
+            if (cartItems.SelectedItem != null)
+            {
+                ApiProvider.ItemsInCart.Remove((cartItems.SelectedItem as Item));
+                messageLabel2.Content = "Removed from cart.";
+                messageLabel2.BorderBrush = Brushes.Blue;
+            }
+            else
+            {
+                messageLabel2.Content = "Select item to remove it from cart.";
+                messageLabel2.BorderBrush = Brushes.Red;
+            }
+            RefreshCart();
+        }
+
+        private void Button_Remove1(object sender, RoutedEventArgs e)
+        {
+            if (cartItems.SelectedItem != null)
+            {
+                if ((cartItems.SelectedItem as Item).amount == 1)
+                    ApiProvider.ItemsInCart.Remove((cartItems.SelectedItem as Item));
+                else
+                    (cartItems.SelectedItem as Item).amount = (cartItems.SelectedItem as Item).amount - 1;
+                messageLabel2.Content = "Removed 1 from cart.";
+                messageLabel2.BorderBrush = Brushes.Blue;
+            }
+            else
+            {
+                messageLabel2.Content = "Select item to remove 1 it from cart.";
+                messageLabel2.BorderBrush = Brushes.Red;
+            }
+            RefreshCart();
+        }
+
+        private void Button_Add1(object sender, RoutedEventArgs e)
+        {
+            if (cartItems.SelectedItem != null)
+            {
+                (cartItems.SelectedItem as Item).amount = (cartItems.SelectedItem as Item).amount + 1;
+                messageLabel2.Content = "Added 1 to cart.";
+                messageLabel2.BorderBrush = Brushes.Blue;
+            }
+            else
+            {
+                messageLabel2.Content = "Select item to add 1 to cart.";
+                messageLabel2.BorderBrush = Brushes.Red;
+            }
+            RefreshCart();
         }
 
         private async void Button_DeleteOrder(object sender, RoutedEventArgs e)
@@ -123,6 +201,7 @@ namespace ObjednavkovySystem
                     logOutButton.Visibility = Visibility.Visible;
                     TabOrders.Visibility = Visibility.Visible;
                     TabItems.Visibility = Visibility.Visible;
+                    TabCart.Visibility = Visibility.Visible;
                 }
                 else
                 {

@@ -16,6 +16,7 @@ namespace ObjednavkovySystem
 
         public List<Order> Orders { get; set; } = new List<Order>();
         public List<Item> Items { get; set; } = new List<Item>();
+        public List<Item> ItemsInCart { get; set; } = new List<Item>();
 
         public async void GetUsers()
         {

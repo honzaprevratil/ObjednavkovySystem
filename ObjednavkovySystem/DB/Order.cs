@@ -8,7 +8,8 @@ namespace ObjednavkovySystem
 {
     class Order : DBitem
     {
-        public string name { get; set; }
+        public DateTime date { get; set; }
         public int visible { get; set; }
+        public List<Item> items { get; set; }
     }
 }

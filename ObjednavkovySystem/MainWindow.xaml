@@ -23,37 +23,67 @@
             <TabItem Header="Items" x:Name="TabItems">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="71*"/>
+                        <ColumnDefinition Width="322*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Content="Order selected" Click="Button_OrderItem" HorizontalAlignment="Left" VerticalAlignment="Top" Width="276" Margin="500,216,0,0" Height="30"/>
+                    <Button Content="Add selected to cart" Click="Button_AddItemToCart" HorizontalAlignment="Left" VerticalAlignment="Top" Width="276" Margin="358.261,216,0,0" Height="30" Grid.Column="1"/>
 
-                    <ListView x:Name="itemsListview" HorizontalAlignment="Left" SelectionChanged="ItemsListview_SelectionChanged" Height="160" Margin="500,51,0,0" VerticalAlignment="Top" Width="276">
+                    <Label x:Name="messageLabel2" BorderBrush="Blue" BorderThickness="2" Content="Select item to add to cart." HorizontalAlignment="Left" Margin="10,211,0,0" VerticalAlignment="Top" Width="192" Grid.ColumnSpan="2"/>
+
+                    <ListView x:Name="itemsListview" HorizontalAlignment="Left" SelectionChanged="ItemsListview_SelectionChanged" Height="160" Margin="358.261,51,0,0" VerticalAlignment="Top" Width="276" Grid.Column="1">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="50" Header="Id" DisplayMemberBinding="{Binding id}"  />
                                 <GridViewColumn Width="100" Header="Name" DisplayMemberBinding="{Binding name}"  />
-                                <GridViewColumn Width="100" Header="Price" DisplayMemberBinding="{Binding price}"  />
+                                <GridViewColumn Width="95" Header="Price" DisplayMemberBinding="{Binding price}"  />
                             </GridView>
                         </ListView.View>
                     </ListView>
 
-                    <Label Content="Description" FontWeight="Bold" FontSize="15" Width="100" Margin="10,10,676,341" Grid.ColumnSpan="3"/>
-                    <TextBlock x:Name="labelDescription" HorizontalAlignment="Left" Margin="10,50,0,0" TextWrapping="Wrap" Text="Select item to see it's description..." VerticalAlignment="Top" Height="162" Width="440"/>
-                    <Label Content="Items" FontWeight="Bold" FontSize="15" Width="100" Margin="496,10,190,341"/>
+                    <Label Content="Description" FontWeight="Bold" FontSize="15" Width="100" Margin="10,10,31.739,341"/>
+                    <TextBlock x:Name="labelDescription" HorizontalAlignment="Left" Margin="10,50,0,0" TextWrapping="Wrap" Text="Select item to see it's description..." VerticalAlignment="Top" Height="156" Width="440" Grid.ColumnSpan="2"/>
+                    <Label Content="Items" FontWeight="Bold" FontSize="15" Width="100" Margin="354.261,10,190,341" Grid.Column="1"/>
 
-                    <Label Content="Add/Update item" FontWeight="Bold" FontSize="15" Margin="10,246,616,105"/>
+                    <Label Content="Add/Update item" FontWeight="Bold" FontSize="15" Margin="10,246,616,105" Grid.ColumnSpan="2"/>
                     <Label Content="Name" HorizontalAlignment="Left" Margin="10,287,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="itemName" HorizontalAlignment="Left" Height="23" Text="" Margin="68,291,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="147"/>
+                    <TextBox x:Name="itemName" HorizontalAlignment="Left" Height="23" Text="" Margin="68,291,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="147" Grid.ColumnSpan="2"/>
                     <Label Content="Price" HorizontalAlignment="Left" Margin="10,318,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="itemPrice" HorizontalAlignment="Left" Height="23" Text="" Margin="68,322,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="147"/>
+                    <TextBox x:Name="itemPrice" HorizontalAlignment="Left" Height="23" Text="" Margin="68,322,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="147" Grid.ColumnSpan="2"/>
                     <Button Content="Save" Click="Button_SaveItem" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="10,351,0,0" Height="30"/>
-                    <TextBox x:Name="itemDescription" HorizontalAlignment="Left" MinLines="3" Height="90" Text="" Margin="327,291,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="449"/>
+                    <TextBox x:Name="itemDescription" HorizontalAlignment="Left" MinLines="3" Height="90" Text="" Margin="185.261,291,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="449" Grid.Column="1"/>
 
-                    <Button Content="Edit selected" Click="Button_EditItem" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="641,251,0,0" Height="30"/>
-                    <Button Content="Cancel" Click="Button_CancelItem" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="115,351,0,0" Height="30"/>
-                    <Label Content="Description" HorizontalAlignment="Left" Margin="242,287,0,0" VerticalAlignment="Top"/>
-                    <Button Content="Delete selected" Click="Button_DeleteItem" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="501,251,0,0" Height="30"/>
+                    <Button Content="Edit selected" Click="Button_EditItem" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="499.261,251,0,0" Height="30" Grid.Column="1"/>
+                    <Button Content="Cancel" Click="Button_CancelItem" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="115,351,0,0" Height="30" Grid.ColumnSpan="2"/>
+                    <Label Content="Description" HorizontalAlignment="Left" Margin="100.261,287,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                    <Button Content="Delete selected" Click="Button_DeleteItem" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="359.261,251,0,0" Height="30" Grid.Column="1"/>
 
+                </Grid>
+            </TabItem>
+            <TabItem Header="Shopping Cart" x:Name="TabCart">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Cart Items" FontWeight="Bold" FontSize="15" Width="100" Margin="12,9,674,342"/>
+                    <Button Content="Remove selected" HorizontalAlignment="Left" VerticalAlignment="Top" Width="276" Margin="16,215,0,0" Height="30" Click="Button_RemoveItemFromCart"/>
+                    <Button Content="Remove 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="16,251,0,0" Height="30" Click="Button_Remove1"/>
+                    <Button Content="Add 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="157,251,0,0" Height="30" Click="Button_Add1"/>
+
+                    <Label Content="Total:" FontWeight="Bold" FontSize="15" Width="100" Margin="440,78,246,273"/>
+                    <Label x:Name="TotalPrice" Content="120" FontWeight="Bold" FontSize="15" Margin="489,78,70,273"/>
+                    <Button Content="Place order" HorizontalAlignment="Left" VerticalAlignment="Top" Width="276" Margin="440,118,0,0" Height="30" Click="Button_RemoveItemFromCart"/>
+
+                    <ListView x:Name="cartItems" HorizontalAlignment="Left" Height="160" Margin="16,50,0,0" VerticalAlignment="Top" Width="276">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="40" Header="Id" DisplayMemberBinding="{Binding id}"  />
+                                <GridViewColumn Width="85" Header="Name" DisplayMemberBinding="{Binding name}"  />
+                                <GridViewColumn Width="80" Header="Price" DisplayMemberBinding="{Binding price}"  />
+                                <GridViewColumn Width="60" Header="Amount" DisplayMemberBinding="{Binding amount}"  />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </Grid>
             </TabItem>
             <TabItem Header="Orders" x:Name="TabOrders">
@@ -69,7 +99,7 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="100" Header="Order id" DisplayMemberBinding="{Binding id}"  />
-                                <GridViewColumn Width="140" Header="Ordered item" DisplayMemberBinding="{Binding name}"  />
+                                <GridViewColumn Width="150" Header="Order time" DisplayMemberBinding="{Binding date}"  />
                             </GridView>
                         </ListView.View>
                     </ListView>
