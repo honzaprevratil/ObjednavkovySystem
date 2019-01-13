@@ -8,19 +8,37 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <TabControl x:Name="MineTabControl">
-            <TabItem Header="Login" x:Name="TabLogin">
+            <TabItem Header="Login/Register" x:Name="TabLogin">
                 <Grid>
-                    <TextBox x:Name="nickInput" HorizontalAlignment="Left" Height="23" Text="honza" Margin="368,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                    <Label Content="Nick" HorizontalAlignment="Left" Margin="296,96,0,0" VerticalAlignment="Top"/>
-                    <PasswordBox x:Name="passInput" HorizontalAlignment="Left" Password="password" Height="23" Margin="368,131,0,0" VerticalAlignment="Top"  Width="120"/>
-                    <Label Content="Password" HorizontalAlignment="Left" Margin="296,127,0,0" VerticalAlignment="Top"/>
-                    <Button Content="Log in" Click="Button_LogIn" HorizontalAlignment="Left" VerticalAlignment="Top" Width="192" Margin="296,213,0,0" Height="30"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="359*"/>
+                        <ColumnDefinition Width="427*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Login" FontWeight="Bold" FontSize="15" Width="100" Margin="86,60,241,291" Grid.Column="1"/>
+                    <Label Content="Nick" HorizontalAlignment="Left" Margin="86,96,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                    <TextBox x:Name="nickInput" HorizontalAlignment="Left" Height="23" Text="honza" Margin="158,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+                    <Label Content="Password" HorizontalAlignment="Left" Margin="86,127,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                    <PasswordBox x:Name="passInput" HorizontalAlignment="Left" Password="password" Height="23" Margin="158,131,0,0" VerticalAlignment="Top"  Width="120" Grid.Column="1"/>
+                    <Button Content="Log in" Click="Button_LogIn" HorizontalAlignment="Left" VerticalAlignment="Top" Width="192" Margin="86,159,0,0" Height="30" Grid.Column="1"/>
 
-                    <Label x:Name="messageLabel" BorderBrush="Blue" BorderThickness="2" Content="Enter your nick and password." HorizontalAlignment="Left" Margin="296,178,0,0" VerticalAlignment="Top" Width="192"/>
-                    <Button x:Name="logOutButton" Content="Log out" Visibility="Visible" Click="Button_LogOut" HorizontalAlignment="Left" VerticalAlignment="Top" Width="177" Margin="601,0,0,0" Height="30"/>
+                    <Label Content="Register" FontWeight="Bold" FontSize="15" Width="100" Margin="67,60,192,291"/>
+                    <Label Content="Nick" HorizontalAlignment="Left" Margin="67,96,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="regnickInput" HorizontalAlignment="Left" Height="23" Text="" Margin="171,99,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                    <Label Content="Password" HorizontalAlignment="Left" Margin="67,130,0,0" VerticalAlignment="Top"/>
+                    <PasswordBox x:Name="regpassInput" HorizontalAlignment="Left" Password="" Height="23" Margin="171,131,0,0" VerticalAlignment="Top"  Width="120"/>
+                    <Label Content="Password check" HorizontalAlignment="Left" Margin="67,165,0,0" VerticalAlignment="Top"/>
+                    <PasswordBox x:Name="regpassInput2" HorizontalAlignment="Left" Password="" Height="23" Margin="171,166,0,0" VerticalAlignment="Top"  Width="120"/>
+                    <Label Content="Name" HorizontalAlignment="Left" Margin="67,196,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.758,3.923"/>
+                    <TextBox x:Name="regnameInput" HorizontalAlignment="Left" Height="23" Text="" Margin="171,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                    <Label Content="Surname" HorizontalAlignment="Left" Margin="67,227,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.758,3.923"/>
+                    <TextBox x:Name="regsurnameInput" HorizontalAlignment="Left" Height="23" Text="" Margin="171,230,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                    <Button Content="Register" Click="Button_Register" HorizontalAlignment="Left" VerticalAlignment="Top" Width="224" Margin="67,258,0,0" Height="30"/>
+
+                    <Label x:Name="messageLabel" BorderBrush="Blue" BorderThickness="2" Content="Enter your nick and password." HorizontalAlignment="Left" Margin="268,320,0,0" VerticalAlignment="Top" Width="192" Grid.ColumnSpan="2"/>
+                    <Button x:Name="logOutButton" Content="Log out" Visibility="Visible" Click="Button_LogOut" HorizontalAlignment="Left" VerticalAlignment="Top" Width="177" Margin="242,0,0,0" Height="30" Grid.Column="1"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Items" x:Name="TabItems">
+            <TabItem Header="Items in shop" x:Name="TabItems">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="71*"/>
@@ -71,8 +89,10 @@
                     <Button Content="Add 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="157,251,0,0" Height="30" Click="Button_Add1"/>
 
                     <Label Content="Total:" FontWeight="Bold" FontSize="15" Width="100" Margin="440,78,246,273"/>
-                    <Label x:Name="TotalPrice" Content="120" FontWeight="Bold" FontSize="15" Margin="489,78,70,273"/>
-                    <Button Content="Place order" HorizontalAlignment="Left" VerticalAlignment="Top" Width="276" Margin="440,118,0,0" Height="30" Click="Button_RemoveItemFromCart"/>
+                    <Label x:Name="TotalPrice" Content="0 CZK" FontWeight="Bold" FontSize="15" Margin="489,78,70,273"/>
+                    <Button Content="Place order" HorizontalAlignment="Left" VerticalAlignment="Top" Width="276" Margin="440,118,0,0" Height="30" Click="Button_PlaceOrder"/>
+
+                    <Label x:Name="messageLabel3" BorderBrush="Blue" BorderThickness="2" Content="Select item to remove it from cart." HorizontalAlignment="Left" Margin="16,286,0,0" VerticalAlignment="Top" Width="276"/>
 
                     <ListView x:Name="cartItems" HorizontalAlignment="Left" Height="160" Margin="16,50,0,0" VerticalAlignment="Top" Width="276">
                         <ListView.View>
@@ -86,23 +106,72 @@
                     </ListView>
                 </Grid>
             </TabItem>
-            <TabItem Header="Orders" x:Name="TabOrders">
+            <TabItem Header="Your orders" x:Name="TabOrders">
 
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="Orders" FontWeight="Bold" FontSize="15" Width="100" Margin="496,10,190,341"/>
-                    <Button Content="Hide selected" Click="Button_DeleteOrder" HorizontalAlignment="Left" VerticalAlignment="Top" Width="276" Margin="500,216,0,0" Height="30" Grid.Column="1"/>
+                    <Label Content="Orders" FontWeight="Bold" FontSize="15" Width="100" Margin="16,13,670,338"/>
+                    <Button Content="Hide selected" Click="Button_DeleteOrder" HorizontalAlignment="Left" VerticalAlignment="Top" Width="276" Margin="20,219,0,0" Height="30"/>
+                    <Label x:Name="messageLabel4" BorderBrush="Blue" BorderThickness="2" Content="Select order to see it's items." HorizontalAlignment="Left" Margin="20,254,0,0" VerticalAlignment="Top" Width="276"/>
 
-                    <ListView x:Name="ordersListview" HorizontalAlignment="Left" Height="160" Margin="500,51,0,0" VerticalAlignment="Top" Width="276" Grid.Column="1">
+                    <Label Content="Total:" FontWeight="Bold" FontSize="15" Width="100" Margin="607,13,79,338"/>
+                    <Label x:Name="TotalPrice2" Content="0 CZK" FontWeight="Bold" FontSize="15" Margin="656,13,20,338"/>
+
+                    <ListView x:Name="ordersListview" HorizontalAlignment="Left" SelectionChanged="ordersListview_SelectionChanged" Height="160" Margin="20,54,0,0" VerticalAlignment="Top" Width="276">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Width="100" Header="Order id" DisplayMemberBinding="{Binding id}"  />
-                                <GridViewColumn Width="150" Header="Order time" DisplayMemberBinding="{Binding date}"  />
+                                <GridViewColumn Width="50" Header="Id" DisplayMemberBinding="{Binding id}"  />
+                                <GridViewColumn Width="200" Header="Time" DisplayMemberBinding="{Binding date}"  />
                             </GridView>
                         </ListView.View>
                     </ListView>
+
+                    <TextBlock x:Name="labelDescription2" HorizontalAlignment="Left" Margin="324,254,0,0" TextWrapping="Wrap" Text="Select item to see it's description..." VerticalAlignment="Top" Height="127" Width="442"/>
+                    <Label Content="Item description" FontWeight="Bold" FontSize="15" Margin="321,219,321,137"/>
+                    <ListView x:Name="itemsInOrder" HorizontalAlignment="Left" SelectionChanged="itemsInOrder_SelectionChanged" Height="160" Margin="321,59,0,0" VerticalAlignment="Top" Width="445">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="50" Header="Id" DisplayMemberBinding="{Binding id}"  />
+                                <GridViewColumn Width="100" Header="Name" DisplayMemberBinding="{Binding name}"  />
+                                <GridViewColumn Width="100" Header="Price" DisplayMemberBinding="{Binding price}"  />
+                                <GridViewColumn Width="100" Header="Amount" DisplayMemberBinding="{Binding amount}"  />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Label Content="Items in Order" FontWeight="Bold" FontSize="15" Margin="321,14,346,337"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Profile" x:Name="TabProfile">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="51*"/>
+                        <ColumnDefinition Width="10*"/>
+                        <ColumnDefinition Width="725*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Content="Change names" FontWeight="Bold" FontSize="15" Margin="0,55,588,296" Grid.Column="2"/>
+                    <Label Content="Name" HorizontalAlignment="Left" Margin="0,95,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.758,3.923" Grid.Column="2"/>
+                    <TextBox x:Name="newnameInput" HorizontalAlignment="Left" Height="23" Text="" Margin="104,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="2"/>
+                    <Label Content="Surname" HorizontalAlignment="Left" Margin="0,126,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.758,3.923" Grid.Column="2"/>
+                    <TextBox x:Name="newsurnameInput" HorizontalAlignment="Left" Height="23" Text="" Margin="104,129,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="2"/>
+
+                    <Label Content="Password" HorizontalAlignment="Left" Margin="0,189,0,0" VerticalAlignment="Top" Grid.Column="2"/>
+                    <PasswordBox x:Name="newpassInputConf" HorizontalAlignment="Left" Password="" Height="23" Margin="104,190,0,0" VerticalAlignment="Top"  Width="120" Grid.Column="2"/>
+                    <Button Content="Update data" Click="Button_UpdateData" HorizontalAlignment="Left" VerticalAlignment="Top" Width="224" Margin="0,218,0,0" Height="30" Grid.Column="2"/>
+
+                    <Label Content="Change password" FontWeight="Bold" FontSize="15" Margin="369,55,214,296" Grid.Column="2"/>
+                    <Label Content="New Password" HorizontalAlignment="Left" Margin="369,95,0,0" VerticalAlignment="Top" Grid.Column="2"/>
+                    <PasswordBox x:Name="newpassInput" HorizontalAlignment="Left" Password="" Height="23" Margin="494,98,0,0" VerticalAlignment="Top"  Width="120" Grid.Column="2"/>
+                    <Label Content="New Password check" HorizontalAlignment="Left" Margin="369,130,0,0" VerticalAlignment="Top" Grid.Column="2"/>
+                    <PasswordBox x:Name="newpassInput2" HorizontalAlignment="Left" Password="" Height="23" Margin="494,133,0,0" VerticalAlignment="Top"  Width="120" Grid.Column="2"/>
+
+                    <Label Content="Old Password" HorizontalAlignment="Left" Margin="369,187,0,0" VerticalAlignment="Top" Grid.Column="2"/>
+                    <PasswordBox x:Name="newpassInputConf2" HorizontalAlignment="Left" Password="" Height="23" Margin="494,187,0,0" VerticalAlignment="Top"  Width="120" Grid.Column="2"/>
+                    <Button Content="Update password" Click="Button_UpdatePassword" HorizontalAlignment="Left" VerticalAlignment="Top" Width="245" Margin="369,215,0,0" Height="30" Grid.Column="2"/>
+
+                    <Label x:Name="messageLabe5" BorderBrush="Blue" BorderThickness="2" Content="Enter data to update it." HorizontalAlignment="Left" Margin="201,300,0,0" VerticalAlignment="Top" Width="192" Grid.Column="2"/>
                 </Grid>
             </TabItem>
         </TabControl>

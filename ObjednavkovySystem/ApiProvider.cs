@@ -27,7 +27,7 @@ namespace ObjednavkovySystem
             string name = userList[0].name;
         }
 
-        public async Task<bool> PostData<T>(string action, T data) where T : DBitem
+        public async Task<bool> PostData<T>(string action, T data, string newData = "") where T : DBitem
         {
             var request = new HttpRequestMessage(HttpMethod.Post, rootPath);
             var keyValues = new List<KeyValuePair<string, string>>();
@@ -38,8 +38,33 @@ namespace ObjednavkovySystem
             // pass action parameters
             if (typeof(T) == typeof(User))
             {
-                keyValues.Add(new KeyValuePair<string, string>("nick", (data as User).nick));
-                keyValues.Add(new KeyValuePair<string, string>("password", (data as User).password));
+                if (action == "login")
+                {
+                    keyValues.Add(new KeyValuePair<string, string>("nick", (data as User).nick));
+                    keyValues.Add(new KeyValuePair<string, string>("password", (data as User).password));
+                }
+                else if (action == "register")
+                {
+                    keyValues.Add(new KeyValuePair<string, string>("nick", (data as User).nick));
+                    keyValues.Add(new KeyValuePair<string, string>("password", (data as User).password));
+                    keyValues.Add(new KeyValuePair<string, string>("name", (data as User).name));
+                    keyValues.Add(new KeyValuePair<string, string>("surname", (data as User).surname));
+                }
+                else if (action == "updatePassword")
+                {
+                    keyValues.Add(new KeyValuePair<string, string>("id", (data as User).id.ToString()));
+                    keyValues.Add(new KeyValuePair<string, string>("nick", (data as User).nick));
+                    keyValues.Add(new KeyValuePair<string, string>("password", (data as User).password));
+                    keyValues.Add(new KeyValuePair<string, string>("newPassword", newData));
+                }
+                else if (action == "updateData")
+                {
+                    keyValues.Add(new KeyValuePair<string, string>("id", (data as User).id.ToString()));
+                    keyValues.Add(new KeyValuePair<string, string>("nick", (data as User).nick));
+                    keyValues.Add(new KeyValuePair<string, string>("password", (data as User).password));
+                    keyValues.Add(new KeyValuePair<string, string>("name", (data as User).name));
+                    keyValues.Add(new KeyValuePair<string, string>("surname", (data as User).surname));
+                }
             }
             else if (typeof(T) == typeof(Item))
             {
@@ -68,7 +93,15 @@ namespace ObjednavkovySystem
             }
             else if (typeof(T) == typeof(Order))
             {
-                keyValues.Add(new KeyValuePair<string, string>("idOrder", (data as Order).id.ToString()));
+                if (action == "hideOrder")
+                {
+                    keyValues.Add(new KeyValuePair<string, string>("idOrder", (data as Order).id.ToString()));
+                }
+                else if (action == "addOrder")
+                {
+                    keyValues.Add(new KeyValuePair<string, string>("idUser", LoggedUser.id.ToString()));
+                    keyValues.Add(new KeyValuePair<string, string>("orderItems", JsonConvert.SerializeObject( (data as Order).items ) ));
+                }
             }
 
             // send task, load response
@@ -88,7 +121,7 @@ namespace ObjednavkovySystem
                     LoggedUser.name = "";
                 }
 
-                if (LoggedUser.name == "")
+                if (LoggedUser.name == "" || LoggedUser.name == null)
                     return false;
             }
             return true;
